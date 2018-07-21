@@ -1,0 +1,90 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Models\ShopCategory;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+
+class ShopCategoryController extends Controller
+{
+    /**
+     * 商家分类
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index(){
+        $shops=ShopCategory::paginate(3);
+        return view("admin.shop_category.index",compact('shops'));
+    }
+
+    /**
+     * 添加商家
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function add(Request $request){
+        //判断接收方式
+    if ($request->isMethod('post')){
+        //添加健壮性
+    $this->validate($request,[
+        "name" => "required|min:2",
+        "shop_intro" => "required",
+        "shop_img" => "required",
+        "status" => "required"
+    ]);
+       //接收数据
+        $data=$request->all();
+        //图片上传
+        $data['shop_img']=$request->file("shop_img")->store("shops","images");
+        //添加保存数据
+        ShopCategory::create($data);
+        //添加成功返回首页
+        $request->session()->flash("success","添加成功");
+        return redirect("/shop_category/index");
+    }
+         return view("admin.shop_category.add");
+    }
+
+    /**
+     * 编辑
+     * @param Request $request
+     * @param ShopCategory $shopCategory
+     */
+    public function edit(Request $request,ShopCategory $shopCategory){
+        //判断接收方式
+        if ($request->isMethod('post')) {
+            //添加健壮性
+            $this->validate($request, [
+                "name" => "required|min:2",
+                "shop_intro" => "required",
+                "shop_img" => "required"
+
+            ]);
+            //接收数据
+            $data = $request->all();
+            //图片上传
+            $data['shop_img'] = $request->file("shop_img")->store("shops", "images");
+            //添加保存数据
+            $shopCategory->update($data);
+            //添加成功返回首页
+            $request->session()->flash("success", "编辑成功");
+            return redirect("/shop_category/index");
+        }
+        //显示视图
+        return view("admin.shop_category.edit",compact('shopCategory'));
+    }
+    public function del(Request $request,$id){
+
+        $shopCategory=ShopCategory::find($id);
+
+        $shopCategory->delete();
+
+        File::delete($shopCategory->shop_img);
+
+        $request->session()->flash("success","删除成功");
+
+        return redirect("/shop_category/index");
+    }
+}
