@@ -60,7 +60,6 @@ class ShopCategoryController extends Controller
                 "name" => "required|min:2",
                 "shop_intro" => "required",
                 "shop_img" => "required"
-
             ]);
             //接收数据
             $data = $request->all();

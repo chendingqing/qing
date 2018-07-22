@@ -71,40 +71,38 @@ class shopController extends Controller
         $shop=Shop::findOrFail($id);
         $user=User::findOrFail($id);
 //        判断接收方式
-        if ($request->isMethod('post')) {
-            //健壮性
-            $this->validate($request,[
-                "name" => "required|min:2",
-                "password" => "required",
-                "email" => "required|email",
-                "email" => "required|email",
-                "shops_name" => "required|min:2",
-                "start_send" => "required",
-                "send_cost" => "required",
-            ]);
-//     接受数据
-            $data['name'] = $request->post('name');
-            $data['password'] = $request->post('password');
-            $data['email'] = $request->post('email');
-            if ($user->update($data)) {
-                $date['shops_name'] = $request->post('shops_name');
-                $date['shop_category_id'] = $request->post('shop_category_id');
-                $date[] = $request->post('shop_category_id');
-                $date['shops_img'] = $request->file("img")->store("shops", "images");
-                $date['brand'] = $request->post('brand');
-                $date['on_time'] = $request->post('on_time');
-                $date['fengniao'] = $request->post('fengniao');
-                $date['bao'] = $request->post('bao');
-                $date['piao'] = $request->post('piao');
-                $date['zhun'] = $request->post('zhun');
-                $date['start_send'] = $request->post('start_send');
-                $date['send_cost'] = $request->post('send_cost');
-                if ($shop->update($date)) {
-                    $request->session()->flash("success", "编辑成功,等待管理员审核");
-                    return redirect()->route("shops.shops.index");
-                }
-            }
-        }
+//        if ($request->isMethod('post')) {
+//            //健壮性
+//            $this->validate($request,[
+//                "name" => "required|min:2",
+//                "password" => "required",
+//                "email" => "required|email",
+//                "shops_name" => "required|min:2",
+//                "start_send" => "required",
+//                "send_cost" => "required",
+//            ]);
+////     接受数据
+//            $data['name'] = $request->post('name');
+//            $data['password'] = $request->post('password');
+//            $data['email'] = $request->post('email');
+//            if ($user->update($data)) {
+//                $date['shops_name'] = $request->post('shops_name');
+//                $date['shop_category_id'] = $request->post('shop_category_id');
+//                $date['shops_img'] = $request->file("img")->store("shops", "images");
+//                $date['brand'] = $request->post('brand');
+//                $date['on_time'] = $request->post('on_time');
+//                $date['fengniao'] = $request->post('fengniao');
+//                $date['bao'] = $request->post('bao');
+//                $date['piao'] = $request->post('piao');
+//                $date['zhun'] = $request->post('zhun');
+//                $date['start_send'] = $request->post('start_send');
+//                $date['send_cost'] = $request->post('send_cost');
+//                if ($shop->update($date)) {
+//                    $request->session()->flash("success", "编辑成功,等待管理员审核");
+//                    return redirect()->route("shops.shops.index");
+//                }
+//            }
+//        }
 //显示视图并传递数据
   return view("shops.shops.edit",compact("cates","shop","user"));
     }
