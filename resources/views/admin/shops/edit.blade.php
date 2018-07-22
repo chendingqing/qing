@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layouts.admin.default')
 @section("title","店铺信息编辑")
 @section('content')
 
@@ -96,6 +96,6 @@
             <input type="text" class="form-control"  placeholder="配送费" name="send_cost" value="{{old("send_cost",$shop->send_cost)}}">
         </div>
         <br/>
-        <button type="submit" class="btn btn-default">编辑</button>
+        <button type="submit" class="btn btn-default">注册</button>
     </form>
 @endsection

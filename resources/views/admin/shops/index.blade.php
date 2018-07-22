@@ -1,7 +1,7 @@
-@extends('layouts.default')
+@extends('layouts.admin.default')
 @section("title","店铺详情列表")
 @section('content')
-
+    <a href="{{route("shop.add")}}" class="btn btn-info">添加</a>
     <table class="table table-bordered">
         <tr>
             <th>id</th>
@@ -14,7 +14,7 @@
             <th>状态</th>
             <th>操作</th>
         </tr>
-
+        @foreach($shops as $shop)
             <tr>
                 <td>{{$shop->id}}</td>
                 <td>{{$shop->shop_category->name}}</td>
@@ -22,8 +22,8 @@
 
                 <td>
                     @if($shop->shops_img)
-                        <img src="/uploads/{{$shop->shops_img}}" width="50">
-                    @endif
+                    <img src="/uploads/{{$shop->shops_img}}" width="50">
+                        @endif
                 </td>
                 <td>{{$shop->shops_rating}}</td>
                 <td>{{$shop->start_send}}</td>
@@ -38,11 +38,13 @@
                     @endif
                 </td>
                 <td>
-                    <a href="{{route("user.edit",$shop->id)}}" class="btn btn-warning">编辑</a>
-
+                    @if($shop->status===0)
+                    <a href="{{route("shop.change",$shop->id)}}" class="btn btn-warning">审核</a>
+                    @endif
+                    <a href="{{route("shop.del",$shop->id)}}" class="btn btn-danger">删除</a>
                 </td>
             </tr>
-
+        @endforeach
     </table>
-
+{{--{{$shops->links()}}--}}
 @endsection

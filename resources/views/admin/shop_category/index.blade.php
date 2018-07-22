@@ -1,4 +1,4 @@
-@extends("layouts.default")
+@extends("layouts.admin.default")
 @section("title","商家管理")
 @section("content")
     <a href="/shop_category/add" class="btn btn-info">添加</a>

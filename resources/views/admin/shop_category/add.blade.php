@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layouts.admin.default')
 @section("title","商家添加")
 @section("content")
     <form action="" method="post" class="form-inline col-sm-8 control-label" enctype="multipart/form-data">

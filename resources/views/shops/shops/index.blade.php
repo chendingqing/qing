@@ -25,7 +25,7 @@
                     <img src="/uploads/{{$shop->shops_img}}" width="50">
                         @endif
                 </td>
-                <td>{{$shop->rating}}</td>
+                <td>{{$shop->shops_rating}}</td>
                 <td>{{$shop->start_send}}</td>
                 <td>{{$shop->send_cost}}</td>
                 <td>
@@ -39,7 +39,7 @@
                 </td>
                 <td>
                     <a href="{{route("shops.edit",$shop->id)}}" class="btn btn-warning">编辑</a>
-                    <a href="{{route("shops.del",$shop->id)}}" class="btn btn-danger">删除</a>
+
                 </td>
             </tr>
         @endforeach
