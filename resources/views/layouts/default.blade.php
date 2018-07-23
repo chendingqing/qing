@@ -69,6 +69,7 @@
         @include("layouts._errors")
         @include("layouts._msg")
         <div class="container-fluid">
+
             @yield("content")
 
 

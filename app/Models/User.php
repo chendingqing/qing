@@ -11,5 +11,9 @@ class User extends Authenticatable
 public function shop(){
 return $this->belongsTo(Shop::class);
 }
+    public function menuCategory()
+    {
+        return $this->belongsTo(Menu_categories::class,"shop_id");
+    }
 
 }

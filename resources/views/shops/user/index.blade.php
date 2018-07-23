@@ -38,7 +38,7 @@
                     @endif
                 </td>
                 <td>
-                    <a href="{{route("user.edit",$shop->id)}}" class="btn btn-warning">编辑</a>
+                    <a href="{{route("user.edit",$shop->id)}}" class="btn btn-warning">修改店铺信息</a>
 
                 </td>
             </tr>

@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layouts.admin.default')
 @section("title","用户登录")
 @section("content")
     <h2 align="center">用户登录</h2>

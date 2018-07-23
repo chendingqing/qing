@@ -1,7 +1,7 @@
 @extends('layouts.admin.default')
 @section("title","商家账号列表")
 @section('content')
-    <a href="{{route("user.add")}}" class="btn btn-info">添加</a>
+
    <table class="table table-bordered">
        <tr>
            <th>id</th>

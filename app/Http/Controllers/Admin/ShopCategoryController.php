@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Shop;
 use App\Models\ShopCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -77,10 +78,13 @@ class ShopCategoryController extends BaseController
     public function del(Request $request,$id){
 
         $shopCategory=ShopCategory::find($id);
-
+      $shop=Shop::where("shop_category_id",$shopCategory->id)->count();
+      if($shop){
+          return back()->with("danger","当前分类下有店铺，不能删除该分类");
+      }
         $shopCategory->delete();
 
-        File::delete($shopCategory->shop_img);
+        File::delete(public_path($shopCategory->shop_img));
 
         $request->session()->flash("success","删除成功");
 

@@ -51,7 +51,10 @@ public function edit(Request $request,$id){
 }
 public function del(Request $request,$id){
     $admin=Admin::findOrFail($id);
-    if ($admin->delete()) {
+    if ($admin->id==1){
+        session()->flash("danger","管理员不可删除");
+        return redirect()->back()->withInput();
+    }elseif ($admin->delete()) {
         session()->flash("success","删除成功");
         return redirect()->route("admin.index");
     }
@@ -80,9 +83,8 @@ public function login(Request $request){
     return view("admin.admin.login");
 }
 public function update(Request $request,$id){
-   $admin=Admin::findOrFail($id);
+   $admin=Auth::guard('admin')->user();
     if ($request->isMethod('post')) {
-
         if (Hash::check($request->post('password'),$admin->password)) {
             $request->user()->fill([
                 'password' => Hash::make($request->post('re_password'))

@@ -7,6 +7,7 @@ use App\Models\ShopCategory;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
 
 class ShopController extends BaseController
 {
@@ -48,7 +49,7 @@ class ShopController extends BaseController
                 $data['shop_id']=$shop->id;
                 if (User::create($data)) {
                     $request->session()->flash("success","添加成功，审核通过");
-                    return redirect()->route("shops.index");
+                    return redirect()->route("shop.index");
                 }
             }
         }
@@ -60,6 +61,17 @@ class ShopController extends BaseController
      $shop->status=1;
     $shop->save();
     return back()->with("success","审核成功");
+
+    }
+    public function del(Request $request,$id){
+
+        $shop=Shop::find($id);
+
+        $shop->delete();
+
+        File::delete(public_path($shop->shops_img));
+            $request->session()->flash("success","删除成功");
+            return redirect("/shop_category/index");
 
     }
 }

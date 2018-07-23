@@ -55,7 +55,16 @@ Route::domain('shop.elm.com')->namespace('Shop')->group(function () {
     Route::any('user/del/{user}', "UserController@del")->name("user.del");
     Route::any('user/login', "UserController@login")->name("user.login");
     Route::any('user/logout', "UserController@logout")->name("user.logout");
-
+   //商品菜品管理
+        Route::any('menuCategories/index', "MenuCategoriesController@index")->name("menuCategories.index");
+        Route::any('menuCategories/add', "MenuCategoriesController@add")->name("menuCategories.add");
+        Route::any('menuCategories/edit/{menuCategories}', "MenuCategoriesController@edit")->name("menuCategories.edit");
+        Route::any('menuCategories/del/{menuCategories}', "MenuCategoriesController@del")->name("menuCategories.del");
+        //商家菜品管理
+          Route::any('menu/index', "MenuController@index")->name("menu.index");
+          Route::any('menu/add', "MenuController@add")->name("menu.add");
+          Route::any('menu/edit/{menu}', "MenuController@edit")->name("menu.edit");
+          Route::any('menu/del/{menu}', "MenuController@del")->name("menu.del");
 });
 
 

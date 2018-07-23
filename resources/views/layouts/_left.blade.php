@@ -33,8 +33,11 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="active"><a href="{{route('shops.index')}}"><i class="fa fa-circle-o"></i>店铺管理</a></li>
-                    <li><a href="{{route('user.index')}}"><i class="fa fa-circle-o"></i>用户管理</a></li>
+
+                    <li><a href="{{route('user.index')}}"><i class="fa fa-circle-o"></i>店铺详情</a></li>
+
+                    <li class="active"><a href="{{route('menuCategories.index')}}"><i class="fa fa-circle-o"></i>店铺菜品分类管理</a></li>
+                    <li class="active"><a href="{{route('menu.index')}}"><i class="fa fa-circle-o"></i>店铺菜品管理</a></li>
                 </ul>
             </li>
             <li class="treeview">
