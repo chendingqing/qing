@@ -18,10 +18,10 @@
                             <select name="menu_id" class="form-control">
                                 <option value="">请选择分类</option>
                                 @foreach($menuCategorys as $menuCategory)
-                                <option value="{{$menuCategory->id}}"@if(request()->input('menu_id')==$menuCategory->id) selected @endif>{{$menuCategory->name}}</option>
-                                    @endforeach
+                                    <option value="{{$menuCategory->id}}"@if(request()->input('menu_id')==$menuCategory->id) selected @endif>{{$menuCategory->name}}</option>
+                                @endforeach
                             </select>
-                            </div>
+                    </div>
 
 
 
@@ -61,7 +61,7 @@
                                 <td>{{$menu->goods_name}}</td>
                                 <td>
                                     @if($menu->goods_img)
-                                        <img src="/uploads/{{$menu->goods_img}}" height="20"width="20">
+                                        <img src="https://elm0325.oss-cn-shenzhen.aliyuncs.com/{{$menu->goods_img}}" height="20"width="20">
                                     @endif
                                 </td>
                                 <td>{{$menu->rating}}</td>
@@ -98,4 +98,5 @@
             <!-- /.box -->
         </div>
     </div>
+    {{$menus->links()}}
 @endsection

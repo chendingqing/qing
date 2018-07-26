@@ -168,7 +168,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+        Overtrue\LaravelUEditor\UEditorServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -178,6 +178,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
+
     ],
 
     /*

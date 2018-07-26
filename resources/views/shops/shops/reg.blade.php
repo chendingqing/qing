@@ -5,23 +5,23 @@
     <form action="" method="post" class="form-inline col-sm-8 control-label" enctype="multipart/form-data">
         {{ csrf_field() }}
         <div class="form-group">
-            <input type="text" class="form-control" placeholder="name" name="name" >
+            <input type="text" class="form-control" placeholder="name" name="name">
         </div>
         <br/>
         <div class="form-group">
-            <input type="password" class="form-control"  placeholder="Password" name="password">
+            <input type="password" class="form-control" placeholder="Password" name="password">
         </div>
         <br/>
         <div class="form-group">
-            <input type="email" class="form-control"  placeholder="email" name="email">
+            <input type="email" class="form-control" placeholder="email" name="email">
         </div>
         <br/>
         <div class="form-group">
-            <input type="text" class="form-control"  placeholder="店铺名称" name="shops_name">
+            <input type="text" class="form-control" placeholder="店铺名称" name="shops_name">
         </div>
         <br/>
         <div class="form-group">
-            店铺分类:<select name="shop_category_id" >
+            店铺分类:<select name="shop_category_id">
                 @foreach($cates as $cate)
                     <option value="{{$cate->id}}">{{$cate->name}}</option>
                 @endforeach
@@ -29,7 +29,13 @@
         </div>
         <br/>
         <div class="form-group">
-            店铺图片:<input type="file" name="img">
+            店铺图片:
+            <div id="uploader-demo">
+                <!--用来存放item-->
+                <input type="hidden" name="shops_img" id="shops_img">
+                <div id="fileList" class="uploader-list"></div>
+                <div id="filePicker">选择图片</div>
+            </div>
         </div>
         <br/>
         <div class="checkbox">
@@ -87,13 +93,68 @@
         </div>
         <br/>
         <div class="form-group">
-            <input type="text" class="form-control"  placeholder="起送金额" name="start_send">
+            <input type="text" class="form-control" placeholder="起送金额" name="start_send">
         </div>
         <br/>
         <div class="form-group">
-            <input type="text" class="form-control"  placeholder="配送费" name="send_cost">
+            <input type="text" class="form-control" placeholder="配送费" name="send_cost">
         </div>
         <br/>
         <button type="submit" class="btn btn-default">注册</button>
     </form>
+@endsection
+
+@section('js')
+    <script>
+        // 初始化Web Uploader
+        var uploader = WebUploader.create({
+
+            // 选完文件后，是否自动上传。
+            auto: true,
+            formData:{
+                _token:'{{csrf_token()}}'
+            },
+            // swf文件路径
+            swf:  '/webuploader/Uploader.swf',
+
+            // 文件接收服务端。
+            server:'{{route('shops.upload')}}',
+
+            // 选择文件的按钮。可选。
+            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+            pick: '#filePicker',
+
+            // 只允许选择图片文件。
+            accept: {
+                title: 'Images',
+                extensions: 'gif,jpg,jpeg,bmp,png',
+                mimeTypes: 'image/*'
+            }
+        });
+        // 当有文件被添加进队列的时候
+        uploader.on( 'fileQueued', function( file ) {
+           var $list=$('#fileList')
+            $list.append( '<div id="' + file.id + '" class="item">' +
+                '<h4 class="info">' + file.name + '</h4>' +
+                '<p class="state">等待上传...</p>' +
+                '</div>' );
+        });
+
+        uploader.on( 'uploadSuccess', function( file ,date) {
+            $( '#'+file.id ).find('p.state').text('已上传');
+            $("#shops_img").val(date.url);
+        });
+
+        uploader.on( 'uploadError', function( file ) {
+            $( '#'+file.id ).find('p.state').text('上传出错');
+        });
+
+        uploader.on( 'uploadComplete', function( file ) {
+            $( '#'+file.id ).find('.progress').fadeOut();
+        });
+
+    </script>
+
+
+
 @endsection

@@ -13,6 +13,7 @@ class MenuCategoriesController extends BaseController
 {
     public function index(Request $request){
      $id=Auth::user()->id;
+
        $menus=Menu_categories::where('shop_id',$id)->get();
 
        return view('shops.menuCategories.index',compact("menus"));
@@ -21,8 +22,9 @@ class MenuCategoriesController extends BaseController
     if ($request->isMethod('post')){
         //接收当前登录商户id
         $id=Auth::user()->id;
+
         if($request->post('is_selected')==1){
-            Menu_categories::where('is_selected','1')->update(['is_selected'=>0]);
+            Menu_categories::where('is_selected','1')->where("shop_id",$id)->update(['is_selected'=>0]);
         }
         $data=$request->all();
         $data['shop_id']=$id;

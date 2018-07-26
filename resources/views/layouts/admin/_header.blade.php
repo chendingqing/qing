@@ -21,6 +21,7 @@
                 <li><a href="/shop_category/index">商铺分类管理</a></li>
                 <li><a href="http://admin.elm.com/admin/index">管理员管理</a></li>
                 <li><a href="{{route('admin.userIndex')}}">商户管理</a></li>
+                <li><a href="{{route('activity.index')}}">活动管理</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">   <span class="caret"></span></a>

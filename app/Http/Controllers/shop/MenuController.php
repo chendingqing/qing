@@ -33,7 +33,7 @@ class MenuController extends Controller
           $query->where("category_id",'=',"$menuId");
       }
 
-      $menus=$query->get();
+      $menus=$query->paginate(3);
 
       $menuCategorys=Menu_categories::all();
 return view("shops.menu.index",compact("menus","menuCategorys"));
@@ -46,20 +46,17 @@ return view("shops.menu.index",compact("menus","menuCategorys"));
    if($request->isMethod("post")){
 
        $data=$request->all();
-       $data['goods_img']=  $request->file("goods_img")->store("goods", "images");
+       $file=  $request->file("goods_img");
+       if ($file!==null){
+       $data['goods_img']=$file->store("menus","oss");
+       }
        $data['shop_id']=Auth::user()->id;
       $data['category_id']=$request->post('category_id');
-
        if (Menu::create($data)) {
            session()->flash("success","添加成功");
            return redirect()->route('menu.index');
        }
-
    }
-
-
-
-
 return view("shops.menu.add",compact("cates"));
   }
   public function edit(Request $request,$id){
@@ -87,6 +84,19 @@ public function del(Request $request,$id){
         return redirect()->route('menu.index');
     }
 
+
+}
+
+
+
+public function upload(Request $request){
+   $fileName= $request->file('file')->store('menus','oss');
+   $date=[
+       'status'=>1,
+       'url'=>$fileName
+   ];
+
+   return $date;
 
 }
 

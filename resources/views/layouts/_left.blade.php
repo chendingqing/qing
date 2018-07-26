@@ -56,8 +56,8 @@
                 </ul>
             </li>
             <li>
-                <a href="/pages/widgets.html">
-                    <i class="fa fa-th"></i> <span>Widgets</span>
+                <a href="{{route('user.activityIndex')}}">
+                    <i class="fa fa-th"></i> <span>正在进行的活动</span>
                     <span class="pull-right-container">
               <small class="label pull-right bg-green">new</small>
             </span>

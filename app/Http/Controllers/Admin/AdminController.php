@@ -11,108 +11,124 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends BaseController
 {
-public function index(){
-$admins=Admin::paginate(4);
+    public function index()
+    {
+        $admins = Admin::paginate(4);
 
-return view("admin.admin.index",compact("admins"));
-}
-public function add(Request $request){
-  if($request->isMethod('post')){
-      $this->validate($request, [
-          'name' => 'required|min:2',
-          'email' => 'required|email',
-          'password' => 'required|confirmed',
-      ]);
-      $data=$request->post();
-      $data['password']=bcrypt($data['password']);
-      if (Admin::create($data)) {
-          session()->flash("success","添加成功");
-          return redirect()->route("admin.index");
-      }
-  }
-    return view("admin.admin.add");
-}
-public function edit(Request $request,$id){
-    $admin=Admin::findOrFail($id);
-    if($request->isMethod('post')){
-        $this->validate($request, [
-            'name' => 'required|min:2',
-            'email' => 'required|email',
-            'password' => 'required|confirmed',
-        ]);
-        $data=$request->post();
-        $data['password']=bcrypt($data['password']);
-        if ($admin->update($data)) {
-            session()->flash("success","编辑成功");
+        return view("admin.admin.index", compact("admins"));
+    }
+
+    public function add(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $this->validate($request, [
+                'name' => 'required|min:2',
+                'email' => 'required|email',
+                'password' => 'required|confirmed',
+            ]);
+            $data = $request->post();
+            $data['password'] = bcrypt($data['password']);
+            if (Admin::create($data)) {
+                session()->flash("success", "添加成功");
+                return redirect()->route("admin.index");
+            }
+        }
+        return view("admin.admin.add");
+    }
+
+    public function edit(Request $request, $id)
+    {
+        $admin = Admin::findOrFail($id);
+        if ($request->isMethod('post')) {
+            $this->validate($request, [
+                'name' => 'required|min:2',
+                'email' => 'required|email',
+                'password' => 'required|confirmed',
+            ]);
+            $data = $request->post();
+            $data['password'] = bcrypt($data['password']);
+            if ($admin->update($data)) {
+                session()->flash("success", "编辑成功");
+                return redirect()->route("admin.index");
+            }
+        }
+        return view("admin.admin.edit", compact("admin"));
+    }
+
+    public function del(Request $request, $id)
+    {
+        $admin = Admin::findOrFail($id);
+        if ($admin->id == 1) {
+            session()->flash("danger", "管理员不可删除");
+            return redirect()->back()->withInput();
+        } elseif ($admin->delete()) {
+            session()->flash("success", "删除成功");
             return redirect()->route("admin.index");
         }
     }
-    return view("admin.admin.edit",compact("admin"));
-}
-public function del(Request $request,$id){
-    $admin=Admin::findOrFail($id);
-    if ($admin->id==1){
-        session()->flash("danger","管理员不可删除");
-        return redirect()->back()->withInput();
-    }elseif ($admin->delete()) {
-        session()->flash("success","删除成功");
-        return redirect()->route("admin.index");
+
+    public function login(Request $request)
+    {
+
+        if ($request->isMethod("post")) {
+            $this->validate($request, [
+                "name" => "required|min:2",
+                "password" => "required",
+            ]);
+            if (Auth::guard('admin')->attempt(['name' => $request->post('name'), 'password' => $request->post('password')], $request->has('remember'))) {
+                //提示
+                $request->session()->flash("success", "登录成功");
+                //echo "登录成功";
+                //跳转
+                return redirect()->route('admin.index');
+
+            } else {
+                //提示
+                $request->session()->flash("danger", "账号或密码错误");
+                //跳转
+                return redirect()->back()->withInput();
+            }
+        }
+        return view("admin.admin.login");
     }
-}
-public function login(Request $request){
 
-    if($request->isMethod("post")){
-        $this->validate($request,[
-            "name" => "required|min:2",
-            "password" => "required",
-        ]);
-        if (Auth::guard('admin')->attempt(['name' => $request->post('name'), 'password' => $request->post('password')], $request->has('remember'))) {
-            //提示
-            $request->session()->flash("success","登录成功");
-            //echo "登录成功";
-            //跳转
-            return redirect()->route('admin.index');
-
-        }else{
-            //提示
-            $request->session()->flash("danger","账号或密码错误");
-            //跳转
-            return redirect()->back()->withInput();
+    public function update(Request $request, $id)
+    {
+        $admin = Auth::guard('admin')->user();
+        if ($request->isMethod('post')) {
+            if (Hash::check($request->post('password'), $admin->password)) {
+                $request->user()->fill([
+                    'password' => Hash::make($request->post('re_password'))
+                ])->save();
+                session()->flash("success", "密码修改成功");
+                return redirect()->route('admin.index');
+            } else {
+                session()->flash("success", "旧密码不正确");
+                return redirect()->back()->withInput();
+            }
         }
+        return view("admin.admin.update");
     }
-    return view("admin.admin.login");
-}
-public function update(Request $request,$id){
-   $admin=Auth::guard('admin')->user();
-    if ($request->isMethod('post')) {
-        if (Hash::check($request->post('password'),$admin->password)) {
-            $request->user()->fill([
-                'password' => Hash::make($request->post('re_password'))
-            ])->save();
-            session()->flash("success","密码修改成功");
-            return redirect()->route('admin.index');
-        }else{
-            session()->flash("success","旧密码不正确");
-            return redirect()->back()->withInput();
-        }
-        }
-return view("admin.admin.update");
-}
-public function logout(Request $request){
-    Auth::logout();
-    $request->session()->flash('success','注销成功');
-    return redirect()->route('admin.login');
-}
 
-public function userIndex(){
-    $users=User::paginate(3);
-    return view('admin.admin.userIndex',compact("users"));
-}
-public function modify(Request $request,$id){
-    $user=User::findOrFail($id);
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->flash('success', '注销成功');
+        return redirect()->route('admin.login');
+    }
 
-    $user['password']=bcrypt("123456");
-    $user->save();
-    return back()->with("success","重置成功");
-}
+    public function userIndex()
+    {
+        $users = User::paginate(3);
+        return view('admin.admin.userIndex', compact("users"));
+    }
+
+    public function modify(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $user['password'] = bcrypt("123456");
+        $user->save();
+        return back()->with("success", "重置成功");
+    }
 }

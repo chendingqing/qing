@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Shop;
 
+use App\Models\Activity;
 use App\Models\User;
+use Faker\Provider\zh_CN\DateTime;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -83,7 +85,7 @@ class UserController extends BaseController
                 $request->session()->flash("success","登录成功");
                 //echo "登录成功";
                 //跳转
-                return redirect()->route('shops.index');
+                return redirect()->route('shops.defaultIndex');
 
             }else{
                 //提示
@@ -98,5 +100,10 @@ class UserController extends BaseController
      Auth::logout();
      session()->flash("success","注销成功");
  return redirect()->route("user.login");
+    }
+    public function activityIndex(Request $request){
+        $date= date(now());
+    $acts=Activity::where('end_time','>=',"$date")->paginate(3);
+    return view("shops.user.activityIndex",compact('acts'));
     }
 }
