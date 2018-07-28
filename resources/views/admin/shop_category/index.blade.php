@@ -5,8 +5,8 @@
     <table class="table table-bordered">
         <tr>
             <th>id</th>
-            <th>商家名称</th>
-            <th>商家简介</th>
+            <th>分类名称</th>
+            <th>商家分类简介</th>
             <th>商家图片</th>
             <th>商家状态</th>
             <th>操作</th>
@@ -18,7 +18,7 @@
                 <td>{{$shop->shop_intro}}</td>
                 <td>
                     @if($shop->shop_img)
-                        <img src="/uploads/{{$shop->shop_img}}" height="50" width="50">
+                        <img src="{{$shop->shop_img}}" height="50" width="50">
                     @endif()
                 </td>
                 <td>

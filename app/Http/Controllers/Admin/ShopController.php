@@ -32,7 +32,7 @@ class ShopController extends BaseController
             $date['shops_name']=$request->post('shops_name');
             $date['shop_category_id']=$request->post('shop_category_id');
             $date[]=$request->post('shop_category_id');
-            $date['shops_img']=$request->file("img")->store("shops","images");
+            $date['shop_img']=$request->post('shop_img');
             $date['brand']=$request->post('brand');
             $date['on_time']=$request->post('on_time');
             $date['fengniao']=$request->post('fengniao');

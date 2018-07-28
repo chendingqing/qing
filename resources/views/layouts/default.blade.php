@@ -31,7 +31,7 @@
     <link rel="stylesheet" type="text/css" href="/webuploader/webuploader.css">
 
 
-    <link rel="stylesheet" type="text/css" href="http://fex.baidu.com/webuploader/css/syntax.css">
+    <link rel="stylesheet" type="text/css" href="/webuploader/main.css">
     <link rel="stylesheet" type="text/css" href="http://fex.baidu.com/webuploader/css/style.css">
 
 
@@ -65,13 +65,7 @@
                 <li class="active">Dashboard</li>
             </ol>
         </section>
-        @guest()
 
-            <a href="{{route("user.login")}}" class="btn-info"> 登录</a>
-
-            <a href="{{route("shops.reg")}}" class="btn-info">注册</a>
-
-        @endguest
         <!-- Main content -->
         @include("layouts._errors")
         @include("layouts._msg")

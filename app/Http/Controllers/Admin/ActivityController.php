@@ -10,17 +10,17 @@ class ActivityController extends Controller
 {
     public function index(Request $request)
     {
-        $query=Activity::orderBy("id");
-        $date= date(now());
-        $time=$request->get('status');
-        if($time==-1){
-            $query->where("start_time",'>=',$date);
+        $query = Activity::orderBy("id");
+        $date = date(now());
+        $time = $request->get('status');
+        if ($time == -1) {
+            $query->where("start_time", '>=', $date);
         }
-        if($time==1){
-            $query->where("start_time",'<=',$date)->where("end_time",'<=',$date);
+        if ($time == 1) {
+            $query->where("start_time", '<=', $date)->where("end_time", '<=', $date);
         }
-        if($time==2){
-            $query->where("end_time",'<=',$date);
+        if ($time == 2) {
+            $query->where("end_time", '<=', $date);
         }
         $acts = $query->paginate(1);
 
@@ -47,9 +47,9 @@ class ActivityController extends Controller
         return view("admin.activity.add");
     }
 
-    public function edit(Request $request,$id)
+    public function edit(Request $request, $id)
     {
-     $act=Activity::findOrFail($id);
+        $act = Activity::findOrFail($id);
         if ($request->isMethod('post')) {
             $this->validate($request, [
                 'title' => 'required|min:2',
@@ -62,15 +62,17 @@ class ActivityController extends Controller
                 return redirect()->route("activity.index");
             }
         }
-        return view("admin.activity.edit",compact('act'));
+        return view("admin.activity.edit", compact('act'));
     }
-  public function del(Request $request,$id){
-        $act=Activity::findOrFail($id);
-      if ($act->delete()) {
-          session()->flash("success", "删除成功");
-          return redirect()->route("activity.index");
-      }
 
-  }
+    public function del(Request $request, $id)
+    {
+        $act = Activity::findOrFail($id);
+        if ($act->delete()) {
+            session()->flash("success", "删除成功");
+            return redirect()->route("activity.index");
+        }
+
+    }
 }
 

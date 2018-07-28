@@ -18,14 +18,14 @@
             <tr>
                 <td>{{$shop->id}}</td>
                 <td>{{$shop->shop_category->name}}</td>
-                <td>{{$shop->shops_name}}</td>
+                <td>{{$shop->shop_name}}</td>
 
                 <td>
-                    @if($shop->shops_img)
-                    <img src="/uploads/{{$shop->shops_img}}" width="50">
+                    @if($shop->shop_img)
+                    <img src="{{$shop->shop_img}}" width="50">
                         @endif
                 </td>
-                <td>{{$shop->shops_rating}}</td>
+                <td>{{$shop->shop_rating}}</td>
                 <td>{{$shop->start_send}}</td>
                 <td>{{$shop->send_cost}}</td>
                 <td>

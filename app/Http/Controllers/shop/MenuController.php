@@ -17,7 +17,7 @@ class MenuController extends Controller
       $maxMoney=$request->input("maxMoney");
       $keywords=$request->input("keywords");
       $menuId=$request->input("menu_id");
-      $id=Auth::user()->id;
+      $id=Auth::user()->shop_id;
       $query=Menu::orderBy("id")->where("shop_id",$id);
 
      if ($minMoney!==null){
@@ -50,7 +50,8 @@ return view("shops.menu.index",compact("menus","menuCategorys"));
        if ($file!==null){
        $data['goods_img']=$file->store("menus","oss");
        }
-       $data['shop_id']=Auth::user()->id;
+       $data['shop_id']=Auth::user()->shop_id;
+
       $data['category_id']=$request->post('category_id');
        if (Menu::create($data)) {
            session()->flash("success","添加成功");
@@ -66,7 +67,8 @@ return view("shops.menu.add",compact("cates"));
 
           $data=$request->all();
           $data['goods_img']=  $request->file("goods_img")->store("goods", "images");
-          $data['shop_id']=Auth::user()->id;
+          $data['shop_id']=Auth::user()->shop_id;
+
           $data['category_id']=$request->post('category_id');
 
           if ($menu->save($data)) {
@@ -78,11 +80,11 @@ return view("shops.menu.add",compact("cates"));
   }
 public function del(Request $request,$id){
    $menu=Menu::findOrFail($id);
-    if (File::delete(public_path("/uploads/$menu->goods_img"))) {
+
         $menu->delete();
         session()->flash("success","删除成功");
         return redirect()->route('menu.index');
-    }
+
 
 
 }
@@ -93,7 +95,7 @@ public function upload(Request $request){
    $fileName= $request->file('file')->store('menus','oss');
    $date=[
        'status'=>1,
-       'url'=>$fileName
+       'url'=>env("ALIYUN_OSS_URL").$fileName
    ];
 
    return $date;

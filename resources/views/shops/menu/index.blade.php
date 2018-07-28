@@ -61,7 +61,7 @@
                                 <td>{{$menu->goods_name}}</td>
                                 <td>
                                     @if($menu->goods_img)
-                                        <img src="https://elm0325.oss-cn-shenzhen.aliyuncs.com/{{$menu->goods_img}}" height="20"width="20">
+                                        <img src="{{$menu->goods_img}}" height="20"width="20">
                                     @endif
                                 </td>
                                 <td>{{$menu->rating}}</td>

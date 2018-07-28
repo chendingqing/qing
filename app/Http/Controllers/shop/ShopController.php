@@ -28,16 +28,14 @@ class shopController extends BaseController
                 "name" => "required|min:2",
                 "password" => "required",
                 "email" => "required|email",
-                "shops_name" => "required|min:2",
                 "start_send" => "required",
                 "send_cost" => "req uired",
             ]);
 //     接受数据
             DB::transaction(function () use($request){
-                $date['shops_name']=$request->post('shops_name');
+                $date['shop_name']=$request->post('shop_name');
                 $date['shop_category_id']=$request->post('shop_category_id');
-                $date[]=$request->post('shop_category_id');
-                $date['shops_img']=$request->file("img")->store("shops","images");
+                $date['shop_img']=$request->post('shop_img');
                 $date['brand']=$request->post('brand');
                 $date['on_time']=$request->post('on_time');
                 $date['fengniao']=$request->post('fengniao');
@@ -47,7 +45,6 @@ class shopController extends BaseController
                 $date['start_send']=$request->post('start_send');
                 $date['send_cost']=$request->post('send_cost');
                 if ($shop=Shop::create($date)) {
-
                     $data['name']=$request->post('name');
                     $data['password']=bcrypt($request->post('password'));
                     $data['email']=$request->post('email');
@@ -57,7 +54,7 @@ class shopController extends BaseController
                 }
             });
             $request->session()->flash("success","注册成功,等待管理员审核");
-            return redirect()->route("shops.index");
+            return redirect()->route("user.login");
             }
 //   显示视图
         return view("shops.shops.reg",compact("cates"));
@@ -89,7 +86,7 @@ class shopController extends BaseController
 //     接受数据
                 $date['shops_name'] = $request->post('shops_name');
                 $date['shop_category_id'] = $request->post('shop_category_id');
-                $date['shops_img'] = $request->post('shops_img');
+                $date['shop_img'] = $request->post('shop_img');
                 $date['brand'] = $request->post('brand');
                 $date['on_time'] = $request->post('on_time');
                 $date['fengniao'] = $request->post('fengniao');
@@ -121,7 +118,7 @@ return view('shops.index');
         $fileName= $request->file('file')->store('shops','oss');
         $date=[
             'status'=>1,
-            'url'=>$fileName
+            'url'=>env('ALIYUN_OSS_URL').$fileName
         ];
         return $date;
 

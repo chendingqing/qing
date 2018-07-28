@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class MenuCategoriesController extends BaseController
 {
     public function index(Request $request){
-     $id=Auth::user()->id;
+     $id=Auth::user()->shop_id;
 
        $menus=Menu_categories::where('shop_id',$id)->get();
 

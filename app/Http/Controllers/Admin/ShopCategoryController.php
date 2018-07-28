@@ -32,13 +32,10 @@ class ShopCategoryController extends BaseController
     $this->validate($request,[
         "name" => "required|min:2",
         "shop_intro" => "required",
-        "shop_img" => "required",
         "status" => "required"
     ]);
        //接收数据
         $data=$request->all();
-        //图片上传
-        $data['shop_img']=$request->file("shop_img")->store("shops","images");
         //添加保存数据
         ShopCategory::create($data);
         //添加成功返回首页
@@ -60,12 +57,9 @@ class ShopCategoryController extends BaseController
             $this->validate($request, [
                 "name" => "required|min:2",
                 "shop_intro" => "required",
-                "shop_img" => "required"
             ]);
             //接收数据
             $data = $request->all();
-            //图片上传
-            $data['shop_img'] = $request->file("shop_img")->store("shops", "images");
             //添加保存数据
             $shopCategory->update($data);
             //添加成功返回首页
@@ -89,5 +83,14 @@ class ShopCategoryController extends BaseController
         $request->session()->flash("success","删除成功");
 
         return redirect("/shop_category/index");
+    }
+    public function upload(Request $request){
+        $fileName= $request->file('file')->store('shop','oss');
+        $date=[
+            'status'=>1,
+            'url'=>env('ALIYUN_OSS_URL').$fileName
+        ];
+        return $date;
+
     }
 }

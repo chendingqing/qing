@@ -20,6 +20,7 @@ Route::domain('admin.elm.com')->namespace('Admin')->group(function () {
     //店铺分类
     Route::any('shop_category/index', "ShopCategoryController@index")->name("shop_category.index");
     Route::any('shop_category/add', "ShopCategoryController@add")->name("shop_category.add");
+    Route::any('shop_category/upload', "ShopCategoryController@upload")->name("shop_category.upload");
     Route::any('shop_category/edit/{shopCategory}', "ShopCategoryController@edit")->name("shop_category.edit");
     Route::any('shop_category/del/{shopCategory}', "ShopCategoryController@del")->name("shop_category.del");
     //平台店铺管理
