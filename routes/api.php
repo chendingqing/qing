@@ -20,3 +20,10 @@ use Illuminate\Http\Request;
 //api路由
 Route::get('/shop/list', "api\ShopController@list")->name("shop.list");
 Route::get('/shop/index', "api\ShopController@index")->name("shop.index");
+
+
+Route::any('/member/reg', "api\MemberController@reg")->name("member.reg");
+Route::any('/member/sms', "api\MemberController@sms")->name("member.sms");
+Route::any('/member/login', "api\MemberController@login")->name("member.login");
+Route::any('/member/remember', "api\MemberController@remember")->name("member.remember");
+Route::any('/member/update', "api\MemberController@update")->name("member.update");

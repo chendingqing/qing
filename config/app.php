@@ -168,7 +168,7 @@ return [
          * Package Service Providers...
          */
         Overtrue\LaravelUEditor\UEditorServiceProvider::class,
-
+        Mrgoon\AliSms\ServiceProvider::class,
         /*
          * Application Service Providers...
          */

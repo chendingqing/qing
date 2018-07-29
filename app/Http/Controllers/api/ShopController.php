@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Models\Member;
 use App\Models\Menu;
 use App\Models\Menu_categories;
 use App\Models\Shop;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class shopController extends Controller
+class ShopController extends Controller
 {
     public function list (Request $request){
         $keyword=$request->input('keyword');
@@ -59,4 +60,5 @@ public function index(Request $request){
     $shop->commodity=$cates;
     return $shop;   
 }
+
 }
