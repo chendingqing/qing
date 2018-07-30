@@ -43,7 +43,7 @@ Route::domain('admin.elm.com')->namespace('Admin')->group(function () {
     Route::any('activity/edit/{activity}', "ActivityController@edit")->name("activity.edit");
     Route::any('activity/index', "ActivityController@index")->name("activity.index");
     Route::any('activity/add', "ActivityController@add")->name("activity.add");
-    Route::any('activity/del/{activity}', "ActivityController@modify")->name("activity.del");
+    Route::any('activity/del/{activity}', "ActivityController@del")->name("activity.del");
 
 });
 

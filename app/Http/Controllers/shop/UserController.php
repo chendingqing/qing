@@ -76,14 +76,8 @@ class UserController extends BaseController
                 "password" => "required",
             ]);
             if (Auth::attempt(['name' => $request->post('name'), 'password' => $request->post('password')], $request->has('remember'))) {
-                   if(Auth::user()->status===0){
-                       Auth::logout();
-                       session()->flash("success","商家状态已警用");
-                       return redirect()->back()->withInput();
-                   }
                 //提示
                 $request->session()->flash("success","登录成功");
-                //echo "登录成功";
                 //跳转
                 return redirect()->route('shops.defaultIndex');
 

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>@yield("title","首页")</title>
+    <title>@yield("title","用户登录")</title>
 
     <!-- Bootstrap -->
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -92,23 +92,30 @@
         </ul>
     @endguest
 </nav>
-
-
-
-
+@include("layouts._errors")
+@include("layouts._msg")
 <div class="container-fluid">
-    <h2 align="center">用户登录</h2>
-    <form action="" method="post" class="form-inline" enctype="multipart/form-data" align="center">
-        {{ csrf_field() }}
-        用户姓名： <input type="text" name="name" placeholder="用户名" value="{{old('name')}}"><br/>
-        用户密码： <input type="password" name="password" placeholder="密码" value="{{old('password')}}"><br/>
-        <input type="checkbox" name="remember">记住密码<br/>
-        <input type="submit" value="登录" class="btn btn-success">
-    </form>
 
-    {{--@include('vendor.ueditor.assets')--}}
+
+    <div class="container-fluid">
+        <h2 align="center">用户登录</h2>
+        <form action="" method="post" class="form-inline" enctype="multipart/form-data" align="center">
+            {{ csrf_field() }}
+            用户姓名： <input type="text" name="name" placeholder="用户名" value="{{old('name')}}"><br/>
+            用户密码： <input type="password" name="password" placeholder="密码" value="{{old('password')}}"><br/>
+            <input type="checkbox" name="remember">记住密码<br/>
+            <input type="submit" value="登录" class="btn btn-success">
+        </form>
+
+        {{--@include('vendor.ueditor.assets')--}}
+
+    </div>
 
 </div>
+
+
+
+
 <script type="text/javascript">
 
     var ue = UE.getEditor('container');

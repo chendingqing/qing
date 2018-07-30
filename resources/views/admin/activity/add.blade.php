@@ -8,7 +8,7 @@
         活动内容：
 
         <!-- 编辑器容器 -->
-        <script id="container" name="content" type="text/plain"></script>
+        <script id="container" name="content" type="text/plain" ></script>
         <br/>
         活动开始时间：<input type="date" name="start_time" class="form-control"><br>
         活动结束时间 ：<input type="date" name="end_time" class="form-control"><br>

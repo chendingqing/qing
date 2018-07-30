@@ -14,9 +14,7 @@ class MemberController extends Controller
 {
     public function sms(Request $request)
     {
-        $this->validate($request, [
 
-        ]);
         $tel = $request->input('tel');
         $code = rand(1000, 9999);
         //把验证码存起来

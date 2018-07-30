@@ -247,7 +247,7 @@
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat">查看</a>
+
                             </div>
                             <div class="pull-right">
                                 <a href="{{route('user.logout')}}" class="btn btn-default btn-flat">注销</a>

@@ -42,7 +42,9 @@ return view("shops.menu.index",compact("menus","menuCategorys"));
 
 
   public function add(Request $request){
-   $cates=Menu_categories::all();
+      $id=Auth::user()->shop_id;
+   $cates=Menu_categories::where('shop_id',$id)->get();
+
    if($request->isMethod("post")){
 
        $data=$request->all();

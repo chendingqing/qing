@@ -10,6 +10,7 @@ class ActivityController extends Controller
 {
     public function index(Request $request)
     {
+
         $query = Activity::orderBy("id");
         $date = date(now());
         $time = $request->get('status');
@@ -17,12 +18,12 @@ class ActivityController extends Controller
             $query->where("start_time", '>=', $date);
         }
         if ($time == 1) {
-            $query->where("start_time", '<=', $date)->where("end_time", '<=', $date);
+            $query->where("start_time", '<=', $date)->where("end_time", '>=', $date);
         }
         if ($time == 2) {
             $query->where("end_time", '<=', $date);
         }
-        $acts = $query->paginate(1);
+        $acts = $query->paginate(3);
 
         return view("admin.activity.index", compact('acts'));
     }
@@ -57,7 +58,7 @@ class ActivityController extends Controller
             ]);
             $data = $request->post();
 
-            if ($act->save($data)) {
+            if ($act->update($data)) {
                 session()->flash("success", "编辑成功");
                 return redirect()->route("activity.index");
             }

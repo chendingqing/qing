@@ -21,7 +21,7 @@ class MenuCategoriesController extends BaseController
     public function add(Request $request){
     if ($request->isMethod('post')){
         //接收当前登录商户id
-        $id=Auth::user()->id;
+        $id=Auth::user()->shop->id;
 
         if($request->post('is_selected')==1){
             Menu_categories::where('is_selected','1')->where("shop_id",$id)->update(['is_selected'=>0]);
@@ -36,10 +36,12 @@ class MenuCategoriesController extends BaseController
     }
     public function edit(Request $request,$id){
         $menu=Menu_categories::findOrFail($id);
+        $shop_id=Auth::user()->shop->id;
+
         if ($request->isMethod('post')){
             //接收当前登录商户id
             if($request->post('is_selected')==1){
-                $menu::where('is_selected','1')->update(['is_selected'=>0]);
+                $menu::where('is_selected','1')->where("shop_id",$shop_id)->update(['is_selected'=>0]);
             }
             $data=$request->all();
            $menu->update($data);

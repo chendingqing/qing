@@ -35,11 +35,11 @@
                     </div>
                 </div>
                 <!-- /.box-header -->
-                <div class="box-body table-responsive no-padding">
+                <div class="box-body table-responsive no-padding" >
                     <table class="table table-hover table-bordered">
                         <tbody>
                         <tr>
-                            <th>id</th>
+                            <th height="">id</th>
                             <th>菜品名称</th>
                             <th>菜品图片</th>
                             <th>菜品评分</th>
@@ -61,7 +61,7 @@
                                 <td>{{$menu->goods_name}}</td>
                                 <td>
                                     @if($menu->goods_img)
-                                        <img src="{{$menu->goods_img}}" height="20"width="20">
+                                        <img src="{{$menu->goods_img}}" height="50"width="50">
                                     @endif
                                 </td>
                                 <td>{{$menu->rating}}</td>
