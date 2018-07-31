@@ -97,15 +97,15 @@ class MemberController extends Controller
         $user = Member::where('username', $name)->first();
 
         if (($user)) {
-                if ($user && Hash::check($request->post('password'), $user->password)) {
-                    return [
-                        'status' => 'true',
-                        'message' => '登录成功',
-                        'user_id' => $user->id,
-                        'username' => $user->username
-                    ];
-                }
+            if ($user && Hash::check($request->post('password'), $user->password)) {
+                return [
+                    'status' => 'true',
+                    'message' => '登录成功',
+                    'user_id' => $user->id,
+                    'username' => $user->username
+                ];
             }
+        }
         return [
             'status' => 'false',
             'message' => '登录失败'
@@ -139,23 +139,24 @@ class MemberController extends Controller
         }
     }
 
-    public function update(Request $request){
-        $id=$request->post('id');
-        $user=Member::findOrFail($id);
+    public function update(Request $request)
+    {
+        $id = $request->post('id');
+        $user = Member::findOrFail($id);
         if ($user && Hash::check($request->post('oldPassword'), $user->password)) {
-            $date['password']=bcrypt($request->post("newPassword"));
+            $date['password'] = bcrypt($request->post("newPassword"));
             if ($user->update($date)) {
                 return [
                     'status' => 'true',
                     'message' => '修改成功',
                 ];
-            }else{
+            } else {
                 return [
                     'status' => 'false',
                     'message' => '修改失败',
                 ];
             }
-            }else{
+        } else {
             return [
                 'status' => 'false',
                 'message' => '旧密码验证失败',
@@ -163,4 +164,12 @@ class MemberController extends Controller
         }
 
     }
+
+    public function index(Request $request)
+    {
+        $id = $request->get("user_id");
+        $data = Member::findOrFail($id);
+        return $data;
+    }
+
 }

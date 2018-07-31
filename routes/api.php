@@ -29,6 +29,7 @@ Route::namespace('api')->group(function () {
     Route::any('/member/login', "MemberController@login")->name("member.login");
     Route::any('/member/remember', "MemberController@remember")->name("member.remember");
     Route::any('/member/update', "MemberController@update")->name("member.update");
+    Route::any('/member/index', "MemberController@index")->name("member.index");
 
 
 
@@ -43,5 +44,13 @@ Route::namespace('api')->group(function () {
     //添加购物车
     Route::any('/cart/add', "CartController@add")->name("cart.add");
     Route::any('/cart/list', "CartController@list")->name("cart.list");
+    Route::any('/cart/list', "CartController@list")->name("cart.list");
 
+
+    //生成订单
+    Route::any('/order/add', "OrderController@add")->name("order.add");
+    Route::any('/order/list', "OrderController@list")->name("order.list");
+    Route::any('/order/find', "OrderController@find")->name("order.find");
+    //支付
+    Route::any('/order/pay', "OrderController@pay")->name("order.pay");
 });
