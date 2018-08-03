@@ -45,6 +45,23 @@ Route::domain('admin.elm.com')->namespace('Admin')->group(function () {
     Route::any('activity/add', "ActivityController@add")->name("activity.add");
     Route::any('activity/del/{activity}', "ActivityController@del")->name("activity.del");
 
+    //订单管理
+     Route::any('order/index', "OrderController@index")->name("orders.index");
+     Route::any('order/day', "OrderController@day")->name("orders.day");
+     Route::any('order/moth', "OrderController@moth")->name("orders.moth");
+     //菜品订单点击量
+    Route::any('order/cartDay', "OrderController@cartDay")->name("orders.cartDay");
+    Route::any('order/cartAll', "OrderController@cartAll")->name("orders.cartAll");
+    Route::any('order/cartMoth', "OrderController@cartMoth")->name("orders.cartMoth");
+
+    //会员管理
+    Route::any('Member/index', "MemberController@index")->name("member.index");
+    Route::any('Member/fill/{member}', "MemberController@fill")->name("member.fill");
+    Route::any('Member/change/{member}', "MemberController@change")->name("member.change");
+    Route::any('Member/find/{member}', "MemberController@find")->name("member.find");
+
+
+
 });
 
 //商户
@@ -77,6 +94,22 @@ Route::domain('shop.elm.com')->namespace('Shop')->group(function () {
     Route::any('menu/upload', "MenuController@upload")->name("menu.upload");
     //活动查看
     Route::any('user/activityIndex', "UserController@activityIndex")->name("user.activityIndex");
+
+
+    // 订单列表
+    Route::any('order/index', "OrderController@index")->name("order.index");
+    Route::any('order/change/{order}', "OrderController@change")->name("order.change");
+    Route::any('order/list/{order}', "OrderController@list")->name("order.list");
+    Route::any('order/send/{order}', "OrderController@send")->name("order.send");
+    Route::any('order/orderList', "OrderController@orderList")->name("order.orderList");
+    Route::any('order/moth', "OrderController@moth")->name("order.moth");
+    Route::any('order/all', "OrderController@all")->name("order.all");
+    //菜品销售量
+    Route::any('order/cartList', "OrderController@cartList")->name("order.cartList");
+    Route::any('order/mothList', "OrderController@mothList")->name("order.mothList");
+    Route::any('order/allList', "OrderController@allList")->name("order.allList");
+
+
 });
 
 

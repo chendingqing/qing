@@ -11,7 +11,7 @@
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/webuploader/webuploader.css">
     <link rel="stylesheet" type="text/css" href="/webuploader/main.css">
-    <link rel="stylesheet" type="text/css" href="http://fex.baidu.com/webuploader/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/webuploader/style.css">
 
 
     <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
@@ -47,19 +47,7 @@
                     <li><a href="http://admin.elm.com/admin/index">管理员管理</a></li>
                     <li><a href="{{route('admin.userIndex')}}">商户管理</a></li>
                     <li><a href="{{route('activity.index')}}">活动管理</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false">   <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">减肥秘诀</a></li>
-                            <li><a href="#">少吃肉，多吃蔬菜</a></li>
-                            <li><a href="#">多敲代码，少抽烟</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">努力吧！肥仔@</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">期待更好的你，而不是自甘堕弱的你!加油！</a></li>
-                        </ul>
-                    </li>
+
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right" >

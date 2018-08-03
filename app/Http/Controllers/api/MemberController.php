@@ -162,7 +162,6 @@ class MemberController extends Controller
                 'message' => '旧密码验证失败',
             ];
         }
-
     }
 
     public function index(Request $request)

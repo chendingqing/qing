@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Member extends Model
 {
-    public $fillable=['username','password','tel','money','jifen'];
+    public $fillable=['username','password','tel','money','jifen','status'];
 }

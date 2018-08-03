@@ -32,7 +32,7 @@
 
 
     <link rel="stylesheet" type="text/css" href="/webuploader/main.css">
-    <link rel="stylesheet" type="text/css" href="http://fex.baidu.com/webuploader/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/webuploader/style.css">
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

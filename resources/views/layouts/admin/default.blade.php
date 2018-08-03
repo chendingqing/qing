@@ -9,9 +9,10 @@
 
     <!-- Bootstrap -->
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
     <link rel="stylesheet" type="text/css" href="/webuploader/webuploader.css">
     <link rel="stylesheet" type="text/css" href="/webuploader/main.css">
-    <link rel="stylesheet" type="text/css" href="http://fex.baidu.com/webuploader/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/webuploader/style.css">
 
 
     <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->

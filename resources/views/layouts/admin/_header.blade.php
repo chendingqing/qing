@@ -23,6 +23,26 @@
                 <li><a href="{{route('admin.userIndex')}}">商户管理</a></li>
                 <li><a href="{{route('activity.index')}}">活动管理</a></li>
 
+                <li class="dropdown">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">订单统计<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{route('orders.index')}}">所有订单</a></li>
+                        <li><a href="{{route('orders.day')}}">商家每日订单统计</a></li>
+                        <li><a href="{{route('orders.moth')}}">商家每月订单统计</a></li>
+
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">菜品统计<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                <li><a href="{{route('orders.cartAll')}}">所有菜品总点击量统计</a></li>
+                <li><a href="{{route("orders.cartDay")}}">商家菜品每日点击量统计</a></li>
+                <li><a href="{{route("orders.cartMoth")}}">商家菜品每月点击量统计</a></li>
+                    </ul>
+                </li>
+                <li><a href="{{route("member.index")}}">会员管理</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right" >
