@@ -20,5 +20,9 @@ class Order extends Model
     {
         return $this->hasMany(orderGood::class, "order_id");
     }
+    public function shop()
+    {
+        return $this->belongsTo(Shop::class, "shop_id");
+    }
 
 }

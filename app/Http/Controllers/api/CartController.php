@@ -14,6 +14,15 @@ class CartController extends Controller
         $goods = $request->post("goodsList");
         $goodsCounts = $request->post('goodsCount');
         $data['user_id'] = $request->post('user_id');
+//        $id=Cart::first()->user_id;
+//           if ($id!=$data['user_id']){
+//             Cart::where('user_id',$id)->delete();
+//               foreach ($goods as $k => $good) {
+//                   $data['amount'] = $goodsCounts[$k];
+//                   $data['goods_id'] = $good;
+//                   $goods = Cart::create($data);
+//               }
+//           }
         if (Cart::where("user_id", $data['user_id'])->delete()) {
             foreach ($goods as $k => $good) {
                 $data['amount'] = $goodsCounts[$k];
@@ -30,9 +39,9 @@ class CartController extends Controller
 
     public function list(Request $request)
     {
-        $id = $request->post('user_id');
-
+        $id = $request->input('user_id');
         $carts = Cart::where('user_id', $id)->get();
+//        dd($carts);
         $goods_list = [];
         $totalCost = "";
         foreach ($carts as $cart) {
@@ -47,9 +56,6 @@ class CartController extends Controller
             'goods_list' => $goods_list,
             'totalCost' => $totalCost
         ];
-
-
-//  return  $goods_list;
     }
 
 }

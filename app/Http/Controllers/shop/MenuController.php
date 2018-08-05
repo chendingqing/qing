@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
-class MenuController extends Controller
+class MenuController extends BaseController
 {
   public function index(Request $request){
       $minMoney=$request->input("minMoney");

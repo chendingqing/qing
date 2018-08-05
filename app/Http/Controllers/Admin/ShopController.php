@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Mail\OrderShipped;
 use App\Models\Shop;
 use App\Models\ShopCategory;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 
 class ShopController extends BaseController
 {
@@ -61,7 +63,6 @@ class ShopController extends BaseController
      $shop->status=1;
     $shop->save();
     return back()->with("success","审核成功");
-
     }
     public function del(Request $request,$id){
 

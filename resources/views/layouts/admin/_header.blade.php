@@ -17,32 +17,43 @@
             @auth('admin')
             <ul class="nav navbar-nav">
 
-                <li><a href="http://admin.elm.com/shop/index">商铺管理</a></li>
-                <li><a href="/shop_category/index">商铺分类管理</a></li>
-                <li><a href="http://admin.elm.com/admin/index">管理员管理</a></li>
-                <li><a href="{{route('admin.userIndex')}}">商户管理</a></li>
-                <li><a href="{{route('activity.index')}}">活动管理</a></li>
+                {{--<li><a href="http://admin.elm.com/shop/index">商铺管理</a></li>--}}
+                {{--<li><a href="/shop_category/index">商铺分类管理</a></li>--}}
+                {{--<li><a href="http://admin.elm.com/admin/index">管理员管理</a></li>--}}
+                {{--<li><a href="{{route('admin.userIndex')}}">商户管理</a></li>--}}
+                {{--<li><a href="{{route('activity.index')}}">活动管理</a></li>--}}
 
+
+
+                @foreach(\App\Models\Nav::where("pid",0)->get() as $k=>$v)
                 <li class="dropdown">
-                    <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">订单统计<span class="caret"></span></a>
+                    <a href="{{route($v->url)}}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">{{$v->name}}<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{route('orders.index')}}">所有订单</a></li>
-                        <li><a href="{{route('orders.day')}}">商家每日订单统计</a></li>
-                        <li><a href="{{route('orders.moth')}}">商家每月订单统计</a></li>
+                        @foreach(\App\Models\Nav::where("pid",$v->id)->get() as $k1=>$v1)
+                            @if(\Illuminate\Support\Facades\Auth::guard('admin')->user()->can($v1->url))
+                        <li><a href="{{route($v1->url)}}">{{$v1->name}}</a></li>
+                            @endif
+                        @endforeach
 
                     </ul>
                 </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">菜品统计<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                <li><a href="{{route('orders.cartAll')}}">所有菜品总点击量统计</a></li>
-                <li><a href="{{route("orders.cartDay")}}">商家菜品每日点击量统计</a></li>
-                <li><a href="{{route("orders.cartMoth")}}">商家菜品每月点击量统计</a></li>
-                    </ul>
-                </li>
-                <li><a href="{{route("member.index")}}">会员管理</a></li>
+
+    @endforeach
+
+
+
+
+                {{--<li class="dropdown">--}}
+                    {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"--}}
+                       {{--aria-expanded="false">菜品统计<span class="caret"></span></a>--}}
+                    {{--<ul class="dropdown-menu">--}}
+                {{--<li><a href="{{route('orders.cartAll')}}">所有菜品总点击量统计</a></li>--}}
+                {{--<li><a href="{{route("orders.cartDay")}}">商家菜品每日点击量统计</a></li>--}}
+                {{--<li><a href="{{route("orders.cartMoth")}}">商家菜品每月点击量统计</a></li>--}}
+                    {{--</ul>--}}
+                {{--</li>--}}
+                {{--<li><a href="{{route("member.index")}}">会员管理</a></li>--}}
             </ul>
 
             <ul class="nav navbar-nav navbar-right" >
@@ -59,12 +70,6 @@
                         </ul>
                     </li>
             </ul>
-            {{--<form class="navbar-form navbar-right">--}}
-                {{--<div class="form-group">--}}
-                    {{--<input type="text" class="form-control" placeholder="Search">--}}
-                {{--</div>--}}
-                {{--<button type="submit" class="btn btn-default">Submit</button>--}}
-            {{--</form>--}}
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
     @endauth

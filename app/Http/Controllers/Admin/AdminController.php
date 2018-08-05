@@ -8,18 +8,22 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class AdminController extends BaseController
 {
     public function index()
     {
-        $admins = Admin::paginate(4);
+        $admins = Admin::all();
 
+//        dd($roles);
         return view("admin.admin.index", compact("admins"));
     }
 
     public function add(Request $request)
     {
+        $roles=Role::all();
         if ($request->isMethod('post')) {
             $this->validate($request, [
                 'name' => 'required|min:2',
@@ -28,16 +32,20 @@ class AdminController extends BaseController
             ]);
             $data = $request->post();
             $data['password'] = bcrypt($data['password']);
-            if (Admin::create($data)) {
+            $admin=Admin::create($data);
+            if ($admin) {
+                // 所有当前角色将从用户中删除，并替换为给定的数组中的角色
+                $admin->syncRoles($request->post('per'));
                 session()->flash("success", "添加成功");
                 return redirect()->route("admin.index");
             }
         }
-        return view("admin.admin.add");
+        return view("admin.admin.add",compact('roles'));
     }
 
     public function edit(Request $request, $id)
     {
+        $roles=Role::all();
         $admin = Admin::findOrFail($id);
         if ($request->isMethod('post')) {
             $this->validate($request, [
@@ -48,11 +56,12 @@ class AdminController extends BaseController
             $data = $request->post();
             $data['password'] = bcrypt($data['password']);
             if ($admin->update($data)) {
+                $admin->syncRoles($request->post('per'));
                 session()->flash("success", "编辑成功");
                 return redirect()->route("admin.index");
             }
         }
-        return view("admin.admin.edit", compact("admin"));
+        return view("admin.admin.edit", compact("admin",'roles'));
     }
 
     public function del(Request $request, $id)
@@ -130,5 +139,8 @@ class AdminController extends BaseController
         $user['password'] = bcrypt("123456");
         $user->save();
         return back()->with("success", "重置成功");
+    }
+    public function out(){
+        return view("admin.admin.out");
     }
 }

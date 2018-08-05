@@ -7,6 +7,7 @@
            <th>id</th>
            <th>管理员账号</th>
            <th>电子邮箱</th>
+           <th>管理用户组</th>
            <th>操作</th>
        </tr>
        @foreach($admins as $admin)
@@ -14,6 +15,10 @@
            <td>{{$admin->id}}</td>
            <td>{{$admin->name}}</td>
            <td>{{$admin->email}}</td>
+           <td>
+              {{str_replace(['[',']','"'],'',json_encode($admin->getRoleNames(),JSON_UNESCAPED_UNICODE))}}
+
+           </td>
            <td>
                <a href="{{route("admin.edit",$admin->id)}}" class="btn btn-warning">编辑</a>
                @if($admin->id!==1)
@@ -24,5 +29,5 @@
        </tr>
         @endforeach
    </table>
-{{$admins->links()}}
+{{--{{$admins->links()}}--}}
 @endsection

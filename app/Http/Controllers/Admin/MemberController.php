@@ -6,7 +6,7 @@ use App\Models\Member;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class MemberController extends Controller
+class MemberController extends BaseController
 {
     public function index(Request $request){
       $members=Member::paginate(10);

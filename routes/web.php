@@ -11,12 +11,24 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+////    return view('welcome');
+////});
+///
 
 //平台
 Route::domain('admin.elm.com')->namespace('Admin')->group(function () {
+
+    //权限控制
+    Route::any('permission/index', "PermissionController@index")->name("permission.index");
+    Route::any('permission/add', "PermissionController@add")->name("permission.add");
+    Route::any('permission/del/{permission}', "PermissionController@del")->name("permission.del");
+//    用户组权限管理
+    Route::any('role/index', "RoleController@index")->name("role.index");
+    Route::any('role/add', "RoleController@add")->name("role.add");
+    Route::any('role/del/{role}', "RoleController@del")->name("role.del");
+    Route::any('role/edit/{role}', "RoleController@edit")->name("role.edit");
+
     //店铺分类
     Route::any('shop_category/index', "ShopCategoryController@index")->name("shop_category.index");
     Route::any('shop_category/add', "ShopCategoryController@add")->name("shop_category.add");
@@ -39,6 +51,7 @@ Route::domain('admin.elm.com')->namespace('Admin')->group(function () {
     Route::any('admin/update/{admin}', "AdminController@update")->name("admin.update");
     Route::any('admin/userIndex', "AdminController@userIndex")->name("admin.userIndex");
     Route::any('admin/modify/{admin}', "AdminController@modify")->name("admin.modify");
+    Route::any('admin/out', "AdminController@out")->name("admin.out");
     //平台活动管理
     Route::any('activity/edit/{activity}', "ActivityController@edit")->name("activity.edit");
     Route::any('activity/index', "ActivityController@index")->name("activity.index");
@@ -61,6 +74,9 @@ Route::domain('admin.elm.com')->namespace('Admin')->group(function () {
     Route::any('Member/find/{member}', "MemberController@find")->name("member.find");
 
 
+    //导航菜单管理
+    Route::any('nav/index', "NavController@index")->name("nav.index");
+    Route::any('nav/add', "NavController@add")->name("nav.add");
 
 });
 

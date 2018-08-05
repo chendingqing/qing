@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class OrderController extends Controller
+class OrderController extends BaseController
 {
     //订单列表
     public function index()

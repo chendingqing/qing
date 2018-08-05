@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Mail\OrderShipped;
 use App\Models\Address;
 use App\Models\Cart;
 use App\Models\Member;
@@ -9,10 +10,13 @@ use App\Models\Menu;
 use App\Models\Order;
 use App\Models\orderGood;
 use App\Models\Shop;
+use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Mrgoon\AliSms\AliSms;
 
 class OrderController extends Controller
 {
@@ -50,8 +54,6 @@ class OrderController extends Controller
         DB::beginTransaction();
 
         try {
-
-
             $order = Order::create($data);
 
             foreach ($goods as $a => $b) {
@@ -76,34 +78,34 @@ class OrderController extends Controller
             ];
         }
 
-
+        //发邮件
+          $user = User::where('shop_id', $shop_id)->first();
+        //发送邮件
+           Mail::to($user)->send(new OrderShipped($order));
         return [
             "status" => "true",
             "message" => "添加成功",
             "order_id" => $order->id
         ];
 
+
     }
 
     public function find(Request $request)
     {
-        $id = $request->get('id');
-        $data = [];
-        $orders = Order::where("id", $id)->first();
 
-        $data['id'] = $id;
-        $data['order_code'] = $orders->sn;
-        $data['order_birth_time'] = "{$orders->created_at}";
-        $data['order_status'] = $orders->order_status;
-        $data['shop_id'] = $orders->shop_id;
-        $shops = Shop::where("id", $data['shop_id'])->first();
-        $data['shop_name'] = $shops->shop_name;
-        $data['shop_img'] = $shops->shop_img;
-        $data['order_price'] = $orders->total;
-        $data['order_address'] = $orders->province . $orders->city . $orders->area . $orders->detail_address;
-        $data['goods_list'] = $orders->goods;
+        $order = Order::find($request->input('id'));
+        $data['id'] = $order->id;
+        $data['order_code'] = $order->sn;
+        $data['order_birth_time'] = (string)$order->created_at;
+        $data['order_status'] = $order->order_status;
+        $data['shop_id'] = "$order->shop_id";
+        $data['shop_name'] = $order->shop->shop_name;
+        $data['shop_img'] = $order->shop->shop_img;
+        $data['order_price'] = $order->total;
+        $data['order_address'] = $order->provence . $order->city . $order->area . $order->detail_address;
+        $data['goods_list'] = $order->goods;
         return $data;
-
     }
 
     public function pay(Request $request)
@@ -121,6 +123,15 @@ class OrderController extends Controller
             $users->update($data);
             $date['status'] = 2;
             $moneys->update($date);
+
+            $config = [
+                'access_key' => 'LTAIkutC9HFgfFDr',
+                'access_secret' => 'WQeqwOPWwcuKhgMwdGF9BdbcyvfokR',
+                'sign_name' => '陈定清',
+            ];
+
+            $aliSms = new AliSms();
+            $response = $aliSms->sendSms($users->tel, 'SMS_141645188', ['product' =>$moneys->sn], $config);
             return [
                 'status' => "true",
                 "message" => "支付成功"
@@ -137,25 +148,27 @@ class OrderController extends Controller
 
     public function list(Request $request)
     {
-        $id = $request->post("user_id");
-        $data = [];
-        $orders = Order::where("user_id", $id)->get();
+        $orders = Order::where("user_id", $request->input('user_id'))->get();
+        $datas = [];
         foreach ($orders as $order) {
-            $data['id'] = $id;
-            $data['order_code'] = $order->sn;
-            $data['order_birth_time'] = "{$order->created_at}";
-            $data['order_status'] = $order->order_status;
-            $data['shop_id'] = $order->shop_id;
-            $shops = Shop::where("id", $data['shop_id'])->first();
-            $data['shop_name'] = $shops->shop_name;
-            $data['shop_img'] = $shops->shop_img;
-            $data['order_price'] = $order->total;
-            $data['order_address'] = $order->province . $order->city . $order->area . $order->detail_address;
-            $data['goods_list'] = $order->goods;
-            $dates[] = $data;
 
+            $goods=orderGood::where('order_id',$order->id)->get(['goods_id','goods_name','goods_img','amount','goods_price']);
+            $data['id'] = "$order->id";
+            $data['order_code'] = $order->sn;
+            $data['order_birth_time'] = (string)$order->created_at;
+            $data['order_status'] = $order->order_status;
+            $data['shop_id'] = (string)$order->shop_id;
+            $data['shop_name'] = $order->shop->shop_name;
+            $data['shop_img'] = $order->shop->shop_img;
+            $data['order_price'] = $order->total;
+            $data['order_address'] = $order->provence . $order->city . $order->area . $order->detail_address;
+            $data['goods_list'] =$goods ;
+            $datas[] = $data;
         }
-        return $dates;
+
+
+        return $datas;
     }
+
 
 }
