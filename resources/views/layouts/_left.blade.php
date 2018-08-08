@@ -81,23 +81,23 @@
                 <a href="{{route('user.activityIndex')}}">
                     <i class="fa fa-th"></i> <span>正在进行的活动</span>
                     <span class="pull-right-container">
-              <small class="label pull-right bg-green">new</small>
+              <small class="label pull-right bg-red">hot</small>
             </span>
                 </a>
             </li>
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-pie-chart"></i>
-                    <span>Charts</span>
+                    <span>抽奖</span>
                     <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href=""><i class="fa fa-circle-o"></i> ChartJS</a></li>
-                    <li><a href=""><i class="fa fa-circle-o"></i> Morris</a></li>
-                    <li><a href=""><i class="fa fa-circle-o"></i> Flot</a></li>
-                    <li><a href=""><i class="fa fa-circle-o"></i> Inline charts</a></li>
+                    <li><a href="{{route("events.index")}}"><i class="fa fa-circle-o"></i> 活动列表</a></li>
+                    <li><a href="{{route("events.winner")}}"><i class="fa fa-circle-o"></i>中奖信息</a></li>
+                    {{--<li><a href=""><i class="fa fa-circle-o"></i> Flot</a></li>--}}
+                    {{--<li><a href=""><i class="fa fa-circle-o"></i> Inline charts</a></li>--}}
                 </ul>
             </li>
             {{--<li class="treeview">--}}

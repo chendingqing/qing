@@ -78,7 +78,29 @@ Route::domain('admin.elm.com')->namespace('Admin')->group(function () {
     Route::any('nav/index', "NavController@index")->name("nav.index");
     Route::any('nav/add', "NavController@add")->name("nav.add");
 
+
+    //平台抽奖活动管理
+    Route::any('event/index', "EventController@index")->name("event.index");
+    Route::any('event/add', "EventController@add")->name("event.add");
+    Route::any('event/edit/{event}', "EventController@edit")->name("event.edit");
+    Route::any('event/del/{event}', "EventController@del")->name("event.del");
+    Route::any('event/list/{event}', "EventController@list")->name("event.list");
+    Route::any('event/prizeList/{event}', "EventController@prizeList")->name("event.prizeList");
+    Route::any('event/bonus/{event}', "EventController@bonus")->name("event.bonus");
+
+    //活动奖品
+    Route::any('eventPrize/winner/{eventPrize}', "eventPrizeController@winner")->name("eventPrize.winner");
+    Route::any('eventPrize/index', "eventPrizeController@index")->name("eventPrize.index");
+    Route::any('eventPrize/add', "eventPrizeController@add")->name("eventPrize.add");
+    Route::any('eventPrize/edit/{eventPrize}', "eventPrizeController@edit")->name("eventPrize.edit");
+    Route::any('eventPrize/del/{eventPrize}', "eventPrizeController@del")->name("eventPrize.del");
 });
+
+
+
+
+
+
 
 //商户
 Route::domain('shop.elm.com')->namespace('Shop')->group(function () {
@@ -124,6 +146,13 @@ Route::domain('shop.elm.com')->namespace('Shop')->group(function () {
     Route::any('order/cartList', "OrderController@cartList")->name("order.cartList");
     Route::any('order/mothList', "OrderController@mothList")->name("order.mothList");
     Route::any('order/allList', "OrderController@allList")->name("order.allList");
+
+    //抽奖活动
+    Route::any('events/index', "EventsController@index")->name("events.index");
+    Route::any('events/winner', "EventsController@winner")->name("events.winner");
+    Route::any('events/signUp/{events}', "EventsController@signUp")->name("events.signUp");
+
+
 
 
 });
