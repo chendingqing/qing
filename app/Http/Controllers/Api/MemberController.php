@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers\Api;
 
 use App\Models\Member;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
+use Mews\Captcha\Facades\Captcha;
 use Mrgoon\AliSms\AliSms;
 
 class MemberController extends Controller
@@ -18,12 +20,13 @@ class MemberController extends Controller
         $tel = $request->input('tel');
         $code = rand(1000, 9999);
         //把验证码存起来
-
-        Redis::setex("tel_" . $tel, 300, $code);
-        return [
-            "status" => "true",
-            "message" => "获取短信验证码成功" . $code
-        ];
+//        存缓存验证码
+        Cache::put("tel_".$tel, $code, 300);
+//        Redis::setex("tel_".$tel, 300, $code);
+//        return [
+//            "status" => "true",
+//            "message" => "获取短信验证码成功" . $code
+//        ];
         $config = [
             'access_key' => 'LTAIkutC9HFgfFDr',
             'access_secret' => 'WQeqwOPWwcuKhgMwdGF9BdbcyvfokR',
@@ -31,7 +34,7 @@ class MemberController extends Controller
         ];
 
         $aliSms = new AliSms();
-        $response = $aliSms->sendSms('$tel', 'SMS_140665163', ['code' => ''], $config);
+        $response = $aliSms->sendSms($tel, 'SMS_140665163', ['code' => $code], $config);
 
 
         if ($response->Message === "OK") {
@@ -46,36 +49,40 @@ class MemberController extends Controller
             ];
         }
     }
-
+//注册
     public function reg(Request $request)
     {
 
         //接收参数
         $data = $request->all();
+        dd($data['tel']);
 
         //创建一个验证规则
-        $validate = Validator::make($data, [
-            'username' => 'required|unique:memebers',
-            'sms' => 'required|integer|min:1000|max:9999',
-            'tel' => [
-                'required',
-                'regex:/^0?(13|14|15|17|18|19)[0-9]{9}$/',
-                'unique:memebers'
-            ],
-            'password' => 'required|min:6'
-        ]);
-        //验证 如果有错
-        if ($validate->fails()) {
-            //返回错误
-            return [
-                'status' => "false",
-                //获取错误信息
-                "message" => $validate->errors()->first()
-            ];
-        }
+//        $validate = Validator::make($data, [
+////            'username' => 'required|unique:members',
+//            'sms' => 'required|integer|min:1000|max:9999',
+//            'tel' => [
+//                'required',
+////                'regex:/^0?(13|14|15|17|18|19)[0-9]{9}$/',
+////                'unique:members'
+//            ],
+//            'password' => 'required|min:6'
+//        ]);
+//        //验证 如果有错
+//        if ($validate->fails()) {
+//            //返回错误
+//            return [
+//                'status' => "false",
+//                //获取错误信息
+//                "message" => $validate->errors()->first()
+//            ];
+//        }
         $data['password'] = bcrypt($request->input('password'));
         $sms = $request->input('sms');
-        if ($sms === Redis::get("tel_" . $data['tel'])) {
+//        $redis= Redis::get("tel_" . $data['tel']);
+        $redis= Cache::get("tel_".$data['tel']);
+
+        if ($sms == $redis) {
             Member::create($data);
             return [
                 "status" => "true",
@@ -83,7 +90,7 @@ class MemberController extends Controller
             ];
         } else {
             return [
-                "status" => "true",
+                "status" => "false",
                 "message" => "注册失败"
             ];
         }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\shop;
+namespace App\Http\Controllers\Shop;
 
 use App\Models\Member;
 use App\Models\Order;
@@ -23,7 +23,7 @@ class OrderController extends BaseController
     //查看订单详情
     public function list(Request $request, $id)
     {
-        $orders = orderGood::where('order_id', $id)->get();
+        $orders = OrderGood::where('order_id', $id)->get();
         return view("shops.order.list", compact('orders'));
     }
 
@@ -101,7 +101,7 @@ class OrderController extends BaseController
             $order_id[]=$order->id;
         }
 
-       $order_goods=orderGood::whereIn('order_id', $order_id)
+       $order_goods=OrderGood::whereIn('order_id', $order_id)
                 ->select(DB::raw('DATE_FORMAT(created_at,"%Y-%m-%d") as date,goods_id,goods_name,sum(amount) as nums'))
                 ->groupBy(DB::raw('date,goods_id'))
                 ->orderBy('date','desc')
@@ -117,7 +117,7 @@ class OrderController extends BaseController
             $order_id[]=$order->id;
         }
 
-        $order_goods=orderGood::whereIn('order_id', $order_id)
+        $order_goods=OrderGood::whereIn('order_id', $order_id)
             ->select(DB::raw('DATE_FORMAT(created_at,"%Y-%m") as date,goods_id,goods_name,sum(amount) as nums'))
             ->groupBy(DB::raw('date,goods_id'))
             ->orderBy('date','desc')
@@ -133,7 +133,7 @@ class OrderController extends BaseController
             $order_id[]=$order->id;
         }
 
-        $order_goods=orderGood::whereIn('order_id', $order_id)
+        $order_goods=OrderGood::whereIn('order_id', $order_id)
             ->select(DB::raw('goods_id,goods_name,sum(amount) as nums'))
             ->groupBy(DB::raw('goods_id'))
             ->get();

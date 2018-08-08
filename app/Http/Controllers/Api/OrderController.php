@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers\Api;
 
 use App\Mail\OrderShipped;
 use App\Models\Address;
@@ -8,7 +8,7 @@ use App\Models\Cart;
 use App\Models\Member;
 use App\Models\Menu;
 use App\Models\Order;
-use App\Models\orderGood;
+use App\Models\OrderGood;
 use App\Models\Shop;
 use App\Models\User;
 use Illuminate\Database\QueryException;
@@ -22,9 +22,9 @@ class OrderController extends Controller
 {
     public function add(Request $request)
     {
-        $user_id = $request->get('user_id');
-        $address_id = $request->get('address_id');
-        if ($address_id === null) {
+        $user_id = $request->post('user_id');
+        $address_id = $request->post('address_id');
+        if ($address_id == null) {
             return [
                 "status" => "false",
                 "message" => "请选择地址"
@@ -64,7 +64,7 @@ class OrderController extends Controller
                 $date['goods_name'] = $good->goods_name;
                 $date['goods_img'] = $good->goods_img;
                 $date['goods_price'] = $good->goods_price;
-                orderGood::create($date);
+                  OrderGood::create($date);
 
             }
             DB::commit();
@@ -78,17 +78,15 @@ class OrderController extends Controller
             ];
         }
 
-        //发邮件
-          $user = User::where('shop_id', $shop_id)->first();
-        //发送邮件
-           Mail::to($user)->send(new OrderShipped($order));
+//        //发邮件
+//          $user = User::where('shop_id', $shop_id)->first();
+//        //发送邮件
+//           Mail::to($user)->send(new OrderShipped($order));
         return [
             "status" => "true",
             "message" => "添加成功",
             "order_id" => $order->id
         ];
-
-
     }
 
     public function find(Request $request)
@@ -152,7 +150,7 @@ class OrderController extends Controller
         $datas = [];
         foreach ($orders as $order) {
 
-            $goods=orderGood::where('order_id',$order->id)->get(['goods_id','goods_name','goods_img','amount','goods_price']);
+            $goods=OrderGood::where('order_id',$order->id)->get(['goods_id','goods_name','goods_img','amount','goods_price']);
             $data['id'] = "$order->id";
             $data['order_code'] = $order->sn;
             $data['order_birth_time'] = (string)$order->created_at;

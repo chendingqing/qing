@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers\Api;
 
 use App\Models\Cart;
 use App\Models\Menu;
@@ -14,22 +14,14 @@ class CartController extends Controller
         $goods = $request->post("goodsList");
         $goodsCounts = $request->post('goodsCount');
         $data['user_id'] = $request->post('user_id');
-//        $id=Cart::first()->user_id;
-//           if ($id!=$data['user_id']){
-//             Cart::where('user_id',$id)->delete();
-//               foreach ($goods as $k => $good) {
-//                   $data['amount'] = $goodsCounts[$k];
-//                   $data['goods_id'] = $good;
-//                   $goods = Cart::create($data);
-//               }
-//           }
-        if (Cart::where("user_id", $data['user_id'])->delete()) {
+
+        Cart::where("user_id", $data['user_id'])->delete();
             foreach ($goods as $k => $good) {
                 $data['amount'] = $goodsCounts[$k];
                 $data['goods_id'] = $good;
                 $goods = Cart::create($data);
             }
-        }
+
         return [
             'status' => "true",
             //获取错误信息

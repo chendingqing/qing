@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Order;
-use App\Models\orderGood;
+use App\Models\OrderGood;
 use App\Models\Shop;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -95,7 +95,7 @@ class OrderController extends BaseController
         $shopId="";
         $shop_id=$request->get("shop_id");
         $users=User::where('status',"!=",0)->get();
-        $query=orderGood::orderBy('id');
+        $query=OrderGood::orderBy('id');
         if($shop_id!==null) {
             $orders = Order::where("shop_id", $shop_id)->select(DB::raw('id'))->get();
             $order_id = [];
@@ -115,7 +115,7 @@ class OrderController extends BaseController
         $shopId="";
         $shop_id=$request->get("shop_id");
         $users=User::where('status',"!=",0)->get();
-        $query=orderGood::orderBy('id');
+        $query=OrderGood::orderBy('id');
         if($shop_id!==null) {
             $orders = Order::where("shop_id", $shop_id)->select(DB::raw('id'))->get();
             $order_id = [];
@@ -137,7 +137,7 @@ class OrderController extends BaseController
         $shopId="";
         $shop_id=$request->get("shop_id");
         $users=User::where('status',"!=",0)->get();
-        $query=orderGood::orderBy('goods_id');
+        $query=OrderGood::orderBy('goods_id');
         if($shop_id!==null) {
             $orders = Order::where("shop_id", $shop_id)->select(DB::raw('id'))->get();
             $order_id = [];

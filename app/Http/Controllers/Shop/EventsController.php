@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\shop;
+namespace App\Http\Controllers\Shop;
 
 use App\Models\Event;
 use App\Models\EventMember;

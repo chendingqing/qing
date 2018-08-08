@@ -16,7 +16,6 @@ class UserController extends BaseController
     {
 
         $shop=Auth::user()->shop;
-//        dd($user);
         return view('shops.user.index',compact("shop"));
     }
 
